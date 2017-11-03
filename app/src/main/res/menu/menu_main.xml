@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.kenne.packettecapp.Main">
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="102"
+        android:title="@string/action_exit" />
+    <item
+        android:id="@+id/action_create_account"
+        android:orderInCategory="101"
+        android:title="@string/action_create_account" />
+</menu>
