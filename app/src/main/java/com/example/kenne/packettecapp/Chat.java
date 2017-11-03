@@ -49,9 +49,6 @@ public class Chat extends AppCompatActivity {
 
         id.setText("ID : "+identifier);
 
-
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

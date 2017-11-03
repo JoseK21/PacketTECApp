@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ public class Registry extends AppCompatActivity {
     private static TextInputEditText tIeTName;
     private static TextInputEditText tIeTLastName;
     private static TextInputEditText tIeTUserName;
+    private static Button fab;
 
 
     @Override
@@ -46,14 +48,88 @@ public class Registry extends AppCompatActivity {
 
         t_1 =(TextView)findViewById(R.id.tVMessageRegistry);
         t_2 =(TextView)findViewById(R.id.tVUserNameTrueFalse);
-        if (n.isEmpty() || ln.isEmpty() || un.isEmpty()){
-            t_1.setText("One o more option without text.  !Empty!");
+        fab= (Button) findViewById(R.id.b_Check);
 
-        }else{
 
-           // if (ListaUserNameServer.containt(un)){                                // quitar la comentación Cuandp se tenga el servidor y pueda pasar estos parametros
-                //t_2.setText("User Name Exists °Try with other User Name");        }
-            //else{
+        if (n.trim().equals("") && ln.trim().equals("") && un.trim().equals("")) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Warning!  Name, Last Name and User Name empty ", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+            // t_1.setText("One o more option without text.  !Empty!");
+            return;
+
+        }
+        else if (n.trim().equals("")  && un.trim().equals("") ) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Warning!  Name and User Name empty", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+        else if (n.trim().equals("")  && ln.trim().equals("") ){
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Snackbar.make(view, "Warning!  Name and Last Name empty", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                });
+        }
+        else if (un.trim().equals("")  && ln.trim().equals("") ){
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Warning! User Name and Last Name empty", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+        else if (n.trim().equals("")){
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Warning! Name empty", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+        else if (ln.trim().equals("") ){
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Warning! Last Name empty", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+        else if (un.trim().equals("")){
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Warning! User Name empty", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+/*// quitar la comentación Cuandp se tenga el servidor y pueda pasar estos parametros
+
+        else if (ListaUserNameServer.containt(un)){
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Warning! User Name Exists/ Try with other User Name", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+*/
+        else{
             t_1.setText("Succesfull");
             b_1 = (Button) findViewById(R.id.button4);
             b_1.setEnabled(true);       //}
