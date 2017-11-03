@@ -52,6 +52,7 @@ public class Main extends AppCompatActivity {
 
     public void goChat(View view){
         this.finish();
+
         Intent i = new Intent(this, Chat.class);
         startActivity(i);
         System.out.print("HELLO CHAT");
