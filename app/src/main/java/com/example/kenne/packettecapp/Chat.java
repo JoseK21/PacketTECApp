@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -23,6 +24,8 @@ public class Chat extends AppCompatActivity {
     String[] messageShort ={"This is Jose","This is Mario","This is Carmen","This is Paulo from the Flower of Paraiso , Cartago","This is Ana","This is Silvia"};
     Integer[] imgid={R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,R.drawable.f,R.drawable.g,R.drawable.h,R.drawable.i,R.drawable.j,R.drawable.k,R.drawable.l,R.drawable.m,R.drawable.n,R.drawable.n2,R.drawable.o,R.drawable.p,R.drawable.q,R.drawable.r,R.drawable.s,R.drawable.t,R.drawable.u,R.drawable.v,R.drawable.w,R.drawable.x,R.drawable.y,R.drawable.z};
     HashMap<String, Integer> meMap = new HashMap<String, Integer>();
+    private static TextView id;
+    private static int identifier = 0;          // HAcerlo en el servidor para no reiniciar el id en cada dispositivo = 0
 
 
 
@@ -42,6 +45,9 @@ public class Chat extends AppCompatActivity {
         CustomListview customListview=new CustomListview(this,name,messageShort,imgid,meMap);
         list.setAdapter(customListview);
 
+        id = (TextView)findViewById(R.id.idxxxx);
+
+        id.setText("ID : "+identifier);
 
 
 

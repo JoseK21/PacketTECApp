@@ -43,6 +43,7 @@ public class Main extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_create_account) {
+            this.finish();
             Intent i = new Intent(this, Registry.class);
             startActivity(i);
             return true;
@@ -55,6 +56,5 @@ public class Main extends AppCompatActivity {
 
         Intent i = new Intent(this, Chat.class);
         startActivity(i);
-        System.out.print("HELLO CHAT");
     }
 }
