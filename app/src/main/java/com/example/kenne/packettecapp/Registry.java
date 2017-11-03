@@ -4,14 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Registry extends AppCompatActivity {
 
     private static Button b_1 ;
+    private static TextView t_1 ;
+    private static TextInputEditText tIeTName;
+    private static TextInputEditText tIeTLastName;
+    private static TextInputEditText tIeTUserName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +35,28 @@ public class Registry extends AppCompatActivity {
     }
 
     public void check(View view){
-        b_1 = (Button) findViewById(R.id.button4);
-        b_1.setEnabled(true);
+        tIeTName = (TextInputEditText)findViewById(R.id.tiName);
+        String n = tIeTName.getText().toString();
+        tIeTLastName = (TextInputEditText)findViewById(R.id.tiLastName);
+        String ln = tIeTLastName.getText().toString();
+        tIeTUserName = (TextInputEditText)findViewById(R.id.tiUserName);
+        String un = tIeTUserName.getText().toString();
+
+        t_1 =(TextView)findViewById(R.id.tVMessageRegistry);
+
+        if (n.isEmpty() || ln.isEmpty() || un.isEmpty()){
+            t_1.setText("One o more option without text.  !Empty!");
+
+        }else{
+            t_1.setText("Succesfull");
+            b_1 = (Button) findViewById(R.id.button4);
+            b_1.setEnabled(true);
+        }
+
+
+
+
+
     }
 
 }
