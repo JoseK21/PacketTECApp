@@ -6,13 +6,22 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.security.KeyStore;
 
 public class Main extends AppCompatActivity {
+
+    private Button b_LogIn;
+    private TextInputEditText textViewUserName_Main;
+    private EditText editTextPassword_Main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +34,14 @@ public class Main extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_exit) {
             System.exit(0);
             return true;
@@ -51,10 +55,26 @@ public class Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goChat(View view){
-        this.finish();
+    public void logIn(View view) {
+        textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
+        editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
 
-        Intent i = new Intent(this, Chat.class);
-        startActivity(i);
+        String tUserName = textViewUserName_Main.getText().toString();
+        String tPassword = editTextPassword_Main.getText().toString();
+
+        if (tUserName.trim().equals("") && tPassword.trim().equals("")) {
+            Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setText("Warning! -> User Name and Password empty").show();
+        }
+        else if (tUserName.trim().equals("")) {
+            Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setText("Warning! -> User Name empty").show();
+        }
+        else if (tPassword.trim().equals("")) {
+            Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setText("Warning! -> Password empty").show();
+        }
+        else {
+            this.finish();
+            Intent i = new Intent(this, Chat.class);
+            startActivity(i);
+        }
     }
 }

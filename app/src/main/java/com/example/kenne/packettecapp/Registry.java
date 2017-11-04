@@ -8,19 +8,23 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class Registry extends AppCompatActivity {
-    private static int id  = 0; // Subir al Server para que de hay nos proporcione un id (sumando cada ves en una unidad)
-    private static Button b_1 ;
-    private static TextView t_1 ;
-    private static TextView t_2 ;
-    private static TextInputEditText tIeTName;
-    private static TextInputEditText tIeTLastName;
-    private static TextInputEditText tIeTUserName;
-    private static Button fab;
+    private int id  = 0; // Subir al Server para que de hay nos proporcione un id (sumando cada ves en una unidad)
+    private Button b_1 ;
+    private TextView t_1 ;
+    private TextView t_2 ;
+    private TextInputEditText tIeTFullName;
+    private TextInputEditText tIeTUserName;
+    private TextInputEditText tIeTPassword;
+    private Button fab;
+    private String fn;
+    private String un;
+    private String passW;
 
 
     @Override
@@ -31,110 +35,49 @@ public class Registry extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
     }
-    public void goChat_Account(View view){
+    public void signIn(View view){
+        tIeTFullName = (TextInputEditText)findViewById(R.id.tiFullName);
+        fn= tIeTFullName.getText().toString();
+        Log.d("Full Name", fn);
+
+        tIeTUserName = (TextInputEditText)findViewById(R.id.tiUserName);
+        un = tIeTUserName.getText().toString();
+        Log.d("User Name", un);
+
+        tIeTPassword = (TextInputEditText)findViewById(R.id.tiPassword);
+        passW = tIeTPassword.getText().toString();
+        Log.d("Password", passW);
+
+        fab= (Button) findViewById(R.id.b_SignIn); // Creo que no lo nesesito(Quitar)
+
+        if (fn.trim().equals("")  && un.trim().equals("") && passW.trim().equals("") ) {
+            Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning!  Full Name, User Name and Password empty").show();
+        }
+        else if (fn.trim().equals("")  && un.trim().equals("") ) {
+            Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning!  Full Name and User Name empty").show();
+        }
+        else if(fn.trim().equals("")  && passW.trim().equals("")){
+            Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning!  Full Name and Password empty").show();
+        }
+        else if(un.trim().equals("")  && passW.trim().equals("")){
+            Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning!  User Name and Password empty").show();
+        }
+        else if(fn.trim().equals("")){
+            Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning!  Full Name empty").show();
+        }
+        else if(un.trim().equals("")){
+            Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning! User Name empty").show();
+        }
+        else if(passW.trim().equals("")){
+            Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning! Password empty").show();
+        }
+        else{
+            openChat();
+        }
+    }
+    public void openChat(){
         Intent i = new Intent(this, Chat.class);
         startActivity(i);
-        System.out.print("HELLO CHAT");
-    }
-
-    public void check(View view){
-        tIeTName = (TextInputEditText)findViewById(R.id.tiName);
-        String n = tIeTName.getText().toString();
-        tIeTLastName = (TextInputEditText)findViewById(R.id.tiLastName);
-        String ln = tIeTLastName.getText().toString();
-        tIeTUserName = (TextInputEditText)findViewById(R.id.tiUserName);
-        String un = tIeTUserName.getText().toString();
-
-
-        t_1 =(TextView)findViewById(R.id.tVMessageRegistry);
-        t_2 =(TextView)findViewById(R.id.tVUserNameTrueFalse);
-        fab= (Button) findViewById(R.id.b_Check);
-
-
-        if (n.trim().equals("") && ln.trim().equals("") && un.trim().equals("")) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Warning!  Name, Last Name and User Name empty ", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-            // t_1.setText("One o more option without text.  !Empty!");
-            return;
-
-        }
-        else if (n.trim().equals("")  && un.trim().equals("") ) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Warning!  Name and User Name empty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-        }
-        else if (n.trim().equals("")  && ln.trim().equals("") ){
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Snackbar.make(view, "Warning!  Name and Last Name empty", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                });
-        }
-        else if (un.trim().equals("")  && ln.trim().equals("") ){
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Warning! User Name and Last Name empty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-        }
-        else if (n.trim().equals("")){
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Warning! Name empty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-        }
-        else if (ln.trim().equals("") ){
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Warning! Last Name empty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-        }
-        else if (un.trim().equals("")){
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Warning! User Name empty", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-        }
-/*// quitar la comentación Cuandp se tenga el servidor y pueda pasar estos parametros
-
-        else if (ListaUserNameServer.containt(un)){
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Warning! User Name Exists/ Try with other User Name", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-        }
-*/
-        else{
-            t_1.setText("Succesfull");
-            b_1 = (Button) findViewById(R.id.button4);
-            b_1.setEnabled(true);       //}
-        }
-
     }
 
 }

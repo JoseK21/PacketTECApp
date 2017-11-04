@@ -20,7 +20,7 @@ public class Chat extends AppCompatActivity {
 
 
     ListView list;
-    String[] name = {"Jose","Mario","Carmen","Paulo","Ana","Silvia"};
+    String[] name = {"Jose","Mario","Carmen","Paulo","Mariano","Silvia"};
     String[] messageShort ={"This is Jose","This is Mario","This is Carmen","This is Paulo from the Flower of Paraiso , Cartago","This is Ana","This is Silvia"};
     Integer[] imgid={R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,R.drawable.f,R.drawable.g,R.drawable.h,R.drawable.i,R.drawable.j,R.drawable.k,R.drawable.l,R.drawable.m,R.drawable.n,R.drawable.n2,R.drawable.o,R.drawable.p,R.drawable.q,R.drawable.r,R.drawable.s,R.drawable.t,R.drawable.u,R.drawable.v,R.drawable.w,R.drawable.x,R.drawable.y,R.drawable.z};
     HashMap<String, Integer> meMap = new HashMap<String, Integer>();
