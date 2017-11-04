@@ -20,8 +20,8 @@ public class Chat extends AppCompatActivity {
 
 
     ListView list;
-    String[] name = {"Jose","Mario","Carmen","Paulo","Mariano","Silvia"};
-    String[] messageShort ={"This is Jose","This is Mario","This is Carmen","This is Paulo from the Flower of Paraiso , Cartago","This is Ana","This is Silvia"};
+    String[] name = {"Pamela","Mario","Allison","Paulo","Gilary","Mery","Manfred","Wilson"};
+    String[] messageShort ={"Hi :)","I thing that is a very option","NO, I don´t.","In the House. Why?","Hello ? How are you!","Mum please!","$20 ","I don´t know!"};
     Integer[] imgid={R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,R.drawable.f,R.drawable.g,R.drawable.h,R.drawable.i,R.drawable.j,R.drawable.k,R.drawable.l,R.drawable.m,R.drawable.n,R.drawable.n2,R.drawable.o,R.drawable.p,R.drawable.q,R.drawable.r,R.drawable.s,R.drawable.t,R.drawable.u,R.drawable.v,R.drawable.w,R.drawable.x,R.drawable.y,R.drawable.z};
     HashMap<String, Integer> meMap = new HashMap<String, Integer>();
     private static TextView id;
@@ -52,19 +52,10 @@ public class Chat extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     public void writeMessage(View view){
-        System.out.print("The User go to Write a Message..................................!");
-       // Intent i = new Intent(this, Chat.class);
-        //startActivity(i);
+        Intent i = new Intent(this, Message.class);
+        startActivity(i);
     }
 }
