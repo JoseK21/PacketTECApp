@@ -17,12 +17,19 @@ import android.widget.EditText;
 
 import java.security.KeyStore;
 
+/**
+ * Clasa Principal
+ */
 public class Main extends AppCompatActivity {
 
     private Button b_LogIn;
     private TextInputEditText textViewUserName_Main;
     private EditText editTextPassword_Main;
 
+    /**
+     * Asigna la ventana/actividad (activity_main) y un Toolbar "Contenedor de opciones principales"
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +39,22 @@ public class Main extends AppCompatActivity {
 
         }
 
+    /**
+     * Asigna el menu (menu - menu_main) a esta actividad(Ventana)
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+     * Opciones principales (Salir(Exit) y Crear una cuenta(Create account)
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -55,6 +72,10 @@ public class Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Metodo que permite acceder al chat del usuario luego de Logiarse en el sistema
+     * @param view
+     */
     public void logIn(View view) {
         textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
         editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
