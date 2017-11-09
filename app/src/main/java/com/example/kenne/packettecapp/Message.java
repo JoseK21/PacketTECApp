@@ -14,12 +14,50 @@ import java.util.ArrayList;
 
 public class Message extends AppCompatActivity {
     private Spinner spinner;
-    private String[] listUser = {"User_1","User_2","User_3","User_4","User_5","User_6","User_7"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        spinner = (Spinner) findViewById(R.id.spinner1);
+
+        ArrayList list = new ArrayList<>();
+        list.add("");
+        list.add("User_1");
+        list.add("User_2");
+        list.add("User_3");
+        list.add("User_4");
+        list.add("User_1");
+        list.add("User_2");
+        list.add("User_3");
+        list.add("User_4");
+        list.add("User_1");
+        list.add("User_2");
+        list.add("User_3");
+        list.add("User_4");
+        list.add("User_1");
+        list.add("User_2");
+        list.add("User_3");
+        list.add("User_4");
+        list.add("User_1");
+        list.add("User_2");
+        list.add("User_3");
+        list.add("User_4");
+        list.add("User_1");
+        list.add("User_2");
+        list.add("User_3");
+        list.add("User_4");
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+
+        spinner.setAdapter(adapter);
+
+
     }
 
     public void sendMessage(View view){
@@ -35,12 +73,8 @@ public class Message extends AppCompatActivity {
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("-----> Add Document in process").show();
     }
 
-    public void loadUser() {
-        spinner = (Spinner) findViewById(R.id.spinner1);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item, listUser);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+    public void loadUser(String[] listUser) {
+            // enviar una lista de todos los usuario ingresados desde el servidor
 
     }
 }

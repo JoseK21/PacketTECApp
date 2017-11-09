@@ -1,21 +1,17 @@
 package com.example.kenne.packettecapp;
 
-import android.app.Activity;
-import android.content.SyncStatusObserver;
-import android.os.Bundle;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.security.KeyStore;
 
 /**
  * Clasa Principal
@@ -36,6 +32,9 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //HttpClient httpClient = new DefaultHttpClient();                  !!! HAY QUE IMPORTA APACHE PARA LOS IMPORT DEL INICIO !!!
+       // HttpPost httpPost =new HttpPost(URL DEL SERVIDOR);
 
         }
 
