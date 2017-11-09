@@ -1,14 +1,11 @@
 package com.example.kenne.packettecapp;
 
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -28,26 +25,10 @@ public class Message extends AppCompatActivity {
         list.add("User_2");
         list.add("User_3");
         list.add("User_4");
-        list.add("User_1");
-        list.add("User_2");
-        list.add("User_3");
-        list.add("User_4");
-        list.add("User_1");
-        list.add("User_2");
-        list.add("User_3");
-        list.add("User_4");
-        list.add("User_1");
-        list.add("User_2");
-        list.add("User_3");
-        list.add("User_4");
-        list.add("User_1");
-        list.add("User_2");
-        list.add("User_3");
-        list.add("User_4");
-        list.add("User_1");
-        list.add("User_2");
-        list.add("User_3");
-        list.add("User_4");
+        list.add("User_5");
+        list.add("User_6");
+        list.add("User_7");
+        list.add("User_8");
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, list);

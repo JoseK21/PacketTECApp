@@ -2,18 +2,13 @@ package com.example.kenne.packettecapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 
 public class Chat extends AppCompatActivity {
@@ -44,11 +39,6 @@ public class Chat extends AppCompatActivity {
         list = (ListView)findViewById(R.id.listViewMessage);
         CustomListview customListview=new CustomListview(this,name,messageShort,imgid,meMap);
         list.setAdapter(customListview);
-
-        id = (TextView)findViewById(R.id.idxxxx);
-
-        id.setText("ID : "+identifier);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

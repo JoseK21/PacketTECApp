@@ -4,4 +4,5 @@
     <string name="action_exit">Exit</string>
     <string name="title_activity_chat">Chat</string>
     <string name="title_activity_registry">Registry</string>
+    <string name="title_activity_office">Office</string>
 </resources>
