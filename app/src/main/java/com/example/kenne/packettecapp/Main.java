@@ -1,6 +1,9 @@
 package com.example.kenne.packettecapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
@@ -31,6 +34,7 @@ public class Main extends AppCompatActivity {
     private EditText editTextPassword_Main;
 
     private static String path;
+    private static File dir;
     /**
      * Asigna la ventana/actividad (activity_main) y un Toolbar "Contenedor de opciones principales"
      *
@@ -48,7 +52,9 @@ public class Main extends AppCompatActivity {
         // HttpPost httpPost =new HttpPost(URL DEL SERVIDOR);
 
         path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
-        File dir = new File(path);
+        dir = new File(path);
+
+
 
         if (dir.exists()){
             this.finish();
@@ -56,10 +62,25 @@ public class Main extends AppCompatActivity {
             startActivity(i);
         }
         else {
-            dir.mkdirs();
+           // dir.mkdirs();
         }
+        checkNetworkConnection();
     }
 
+    public boolean checkNetworkConnection(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        boolean isConnected=false;
+
+        if (networkInfo !=null && (isConnected=networkInfo.isConnected())){
+            Toast.makeText(getApplicationContext(), "Connected -> "+networkInfo.getTypeName(), Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "Not Connected", Toast.LENGTH_SHORT).show();
+
+        }
+        return isConnected;
+    }
 
 
     /**
@@ -122,6 +143,7 @@ public class Main extends AppCompatActivity {
             this.finish();
             Intent i = new Intent(this, Chat.class);
             startActivity(i);
+            dir.mkdirs();
             JSONLoginIn(tUserName, tPassword);
         }
     }
@@ -131,6 +153,7 @@ public class Main extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();        //JSON object and values
         jsonObject.put("userName", username);
         jsonObject.put("password", password);
+
         try {
             FileWriter fileWriter = new FileWriter(path + "/infoJSON.json");
             fileWriter.write(jsonObject.toJSONString());
