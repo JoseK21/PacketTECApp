@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 /**
  * Clasa Principal
  */
@@ -42,30 +41,72 @@ public class Main extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //HttpClient httpClient = new DefaultHttpClient();                  !!! HAY QUE IMPORTA APACHE PARA LOS IMPORT DEL INICIO !!!
-        // HttpPost httpPost =new HttpPost(URL DEL SERVIDOR);
+
+        /*
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost =new HttpPost("192.168.43.75:8080/PacketTECServer1/index.xml");       // ver ruta del servidor
+        //Nombre del servidor donde vamos a acceder la informacion(JSON->)
+
+
+
+        try {
+            HttpResponse response = httpClient.execute(httpPost);           // ejecuta el HttpResponse
+            String jsonResult = inputStreamToString(response.getEntity().getContent()).toString();      //inputStreamToString: lee la información.!
+
+            org.json.JSONObject object = new org.json.JSONObject(jsonResult);                           // Uso de la libreria que trae Android Studio(JSON)
+            String name = object.getString("nombre");
+            String version = object.getString("blog");
+
+            Toast.makeText(getApplicationContext(), name + "<-> " + version, Toast.LENGTH_SHORT).show();
+
+        }catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error 1 : "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        catch (ClientProtocolException e ){
+            Toast.makeText(getApplicationContext(), "Error 2 : "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        catch (IOException e){
+            Toast.makeText(getApplicationContext(), "Error 3 : "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        */
 
         path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
         dir = new File(path);
-
-
-
         if (dir.exists()){
             this.finish();
             Intent i = new Intent(this, Chat.class);
             startActivity(i);
         }
-        else {
-           // dir.mkdirs();
-        }
         checkNetworkConnection();
     }
+
+/*
+    private StringBuilder inputStreamToString(InputStream is){
+        String rLine = "";
+        StringBuilder answer = new StringBuilder();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+        try{
+            while ((rLine = rd.readLine())!= null){
+                answer.append(rLine);
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return answer;
+    }
+
+    */
+
 
     public boolean checkNetworkConnection(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -75,6 +116,7 @@ public class Main extends AppCompatActivity {
 
         if (networkInfo !=null && (isConnected=networkInfo.isConnected())){
             Toast.makeText(getApplicationContext(), "Connected -> "+networkInfo.getTypeName(), Toast.LENGTH_SHORT).show();
+
         }else{
             Toast.makeText(getApplicationContext(), "Not Connected", Toast.LENGTH_SHORT).show();
 

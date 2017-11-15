@@ -4,20 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_light"
     tools:context="com.example.kenne.packettecapp.Message">
+
+    <TextView
+        android:id="@+id/textPictures"
+        android:layout_width="200dp"
+        android:layout_height="17dp"
+        android:editable="false"
+        android:text="Pictures's Name"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.825" />
+
+    <TextView
+        android:id="@+id/textVideos"
+        android:layout_width="200dp"
+        android:layout_height="17dp"
+        android:editable="false"
+        android:text="Videos's Name"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.896" />
 
     <ImageButton
         android:id="@+id/iB_Send"
         android:layout_width="35dp"
         android:layout_height="29dp"
-        android:background="@drawable/bsendmessage"
+        android:background="@drawable/send"
         android:onClick="sendMessage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintVertical_bias="0.966" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="368dp"
@@ -40,17 +69,18 @@
     </android.support.design.widget.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="119dp"
-        android:layout_height="21dp"
-        android:text="......"
+        android:id="@+id/textDocs"
+        android:layout_width="200dp"
+        android:layout_height="17dp"
+        android:editable="false"
+        android:text="Doc's Name"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.032"
+        app:layout_constraintHorizontal_bias="0.277"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.949" />
+        app:layout_constraintVertical_bias="0.967" />
 
     <TextView
         android:id="@+id/textView"
@@ -67,42 +97,42 @@
 
     <ImageButton
         android:id="@+id/imageButton3"
-        android:layout_width="26dp"
-        android:layout_height="29dp"
-        android:background="@drawable/buttondoc"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/docs"
         android:onClick="addDocument"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintVertical_bias="0.966" />
 
     <ImageButton
         android:id="@+id/imageButton4"
-        android:layout_width="26dp"
-        android:layout_height="29dp"
-        android:background="@drawable/buttonaudio"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/videos"
         android:onClick="addVideo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.148"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintVertical_bias="0.892" />
 
     <ImageButton
         android:id="@+id/iB_Image"
-        android:layout_width="26dp"
-        android:layout_height="29dp"
-        android:background="@drawable/buttonimage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/pictures"
         android:onClick="addImage"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintVertical_bias="0.819" />
 
     <Spinner
         android:id="@+id/spinner1"
