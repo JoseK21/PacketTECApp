@@ -2,16 +2,22 @@ package com.example.kenne.packettecapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.simple.JSONObject;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Registry extends AppCompatActivity {
     private int id  = 0; // Subir al Server para que de hay nos proporcione un id (sumando cada ves en una unidad)
@@ -25,6 +31,8 @@ public class Registry extends AppCompatActivity {
     private String fn;
     private String un;
     private String passW;
+    private static String path;
+    private static File dir;
 
 
     @Override
@@ -72,12 +80,41 @@ public class Registry extends AppCompatActivity {
             Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning! Password empty").show();
         }
         else{
-            openChat();
+            JSONLoginIn(un, fn,passW);
+            returnMain();
         }
     }
-    public void openChat(){
-        Intent i = new Intent(this, Chat.class);
+    public void returnMain(){
+        Toast.makeText(getApplicationContext(), "Created account.", Toast.LENGTH_SHORT).show();
+
+        Intent i = new Intent(this, Main.class);
         startActivity(i);
+    }
+
+
+
+    public void JSONLoginIn(String username,Object fullname, String password) {
+        JSONObject jsonObject = new JSONObject();        //JSON object and values
+        jsonObject.put("PASSWORD", password);
+        jsonObject.put("USERNAME", username);
+        jsonObject.put("FULLNAME", fullname);
+
+        try {
+            path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
+            dir = new File(path);
+            dir.mkdirs();
+
+
+            FileWriter fileWriter = new FileWriter(path + "/infoJSON.json");
+            fileWriter.write(jsonObject.toJSONString());
+            fileWriter.flush();
+
+            Toast.makeText(getApplicationContext(), "Successful_LogIn ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "File Create.( Fullname: "+fullname+ " Username: "+username+" Password: "+password+" )", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

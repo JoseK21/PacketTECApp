@@ -18,9 +18,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -80,12 +82,16 @@ public class Main extends AppCompatActivity {
 
         path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
         dir = new File(path);
+        checkNetworkConnection();
+        /*
         if (dir.exists()){
             this.finish();
             Intent i = new Intent(this, Chat.class);
             startActivity(i);
         }
-        checkNetworkConnection();
+        */
+
+
     }
 
 /*
@@ -152,7 +158,6 @@ public class Main extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_create_account) {
-            this.finish();
             Intent i = new Intent(this, Registry.class);
             startActivity(i);
             return true;
@@ -166,6 +171,8 @@ public class Main extends AppCompatActivity {
      * @param view
      */
     public void logIn(View view) {
+
+
 
         textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
         editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
@@ -182,39 +189,59 @@ public class Main extends AppCompatActivity {
 
 
         } else {
-            this.finish();
-            Intent i = new Intent(this, Chat.class);
-            startActivity(i);
-            dir.mkdirs();
-            JSONLoginIn(tUserName, tPassword);
+
+            ReadInfoJSON(tUserName,tPassword);
+
         }
     }
 
+    public void ReadInfoJSON(String User,String Pass){
+        JSONParser parser = new JSONParser();
 
-    public void JSONLoginIn(String username, String password) {
-        JSONObject jsonObject = new JSONObject();        //JSON object and values
-        jsonObject.put("userName", username);
-        jsonObject.put("password", password);
+
 
         try {
-            FileWriter fileWriter = new FileWriter(path + "/infoJSON.json");
-            fileWriter.write(jsonObject.toJSONString());
-            fileWriter.flush();
+            String rootInfoJSON = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp/infoJSON.json";
+            Object obj = null;
+            obj = parser.parse(new FileReader(rootInfoJSON));
 
-            Toast.makeText(getApplicationContext(), "File::::: Susccefuly", Toast.LENGTH_SHORT).show();
+            JSONObject jsonObject = (JSONObject) obj;
+            String Name =(String) jsonObject.get("USERNAME");
+            String PassWord =(String) jsonObject.get("PASSWORD");
+
+            if(User.equals(Name) && Pass.equals(PassWord)){
+                this.finish();
+                // ---> CREACION DE UN .JSON EL CUAL SE TIENE QUE ENVIAR AL SERVIDOR PARA CONSULTAR LA EXISTENCIA DEL USUARIO Y A SU VES TODOS SUS MENSAJES
+                Intent i = new Intent(this, Chat.class);
+                startActivity(i);
+            }
+            else{
+                textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
+                editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
+
+                textViewUserName_Main.setText("");
+                editTextPassword_Main.setText("");
+
+                Toast.makeText(getApplicationContext(), "Fault in the account start\nPlease write again", Toast.LENGTH_SHORT).show();
+            }
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
+
 }
 
 
 /*
 
         //JSON array and values
-        JSONArray jsonArray= new JSONArray();
-        jsonArray.add("Java");
+        JSONArray jsonArray= new JSONArray();               //EXTRUCTURA DE CARGA DE MENSAJES AL DISPOSITIVOS.
+        jsonArray.add("Java");                              FOR (MESSAGE IN SERVER){ jsonArray.add( MESSAGE[IND] );}  jsonObject.put("MESSAGES", jsonArray);
         jsonArray.add("Struts");
         jsonArray.add("jQuery");
         jsonArray.add("JavaScript");
