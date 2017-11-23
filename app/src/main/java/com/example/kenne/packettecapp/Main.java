@@ -212,7 +212,7 @@ public class Main extends AppCompatActivity {
             if(User.equals(Name) && Pass.equals(PassWord)){
                 this.finish();
                 // ---> CREACION DE UN .JSON EL CUAL SE TIENE QUE ENVIAR AL SERVIDOR PARA CONSULTAR LA EXISTENCIA DEL USUARIO Y A SU VES TODOS SUS MENSAJES
-                Intent i = new Intent(this, Chat.class);
+                Intent i = new Intent(this, Protocol.class);
                 startActivity(i);
             }
             else{

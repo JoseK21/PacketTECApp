@@ -1,10 +1,10 @@
 package com.example.kenne.packettecapp;
 
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,13 +25,13 @@ import java.io.InputStream;
  * Created by José Núñez on 23/11/2017.
  */
 
-public class Protocol  extends Activity implements View.OnClickListener {
+public class Protocol  extends AppCompatActivity implements View.OnClickListener {
     @Override
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_server__android);
 
 
         findViewById(R.id.my_button).setOnClickListener(this);
@@ -73,8 +73,6 @@ public class Protocol  extends Activity implements View.OnClickListener {
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
-            // HttpGet httpGet = new HttpGet("http://192.168.100.21:8080/Servidor/api/blackBoxes/put");
-            //"http://www.cheesejedi.com/rest_services/get_big_cheese.php?puzzle=1"
 
             HttpGet httpGet = new HttpGet("http://192.168.100.21:8080/Servidor/api/blackBoxes/put");
             String text = null;
@@ -85,7 +83,7 @@ public class Protocol  extends Activity implements View.OnClickListener {
 
                 if(!text.equals("")){
                     try{
-                        String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/InfoPacketTECApp/contactJSON.json";
+                        String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/InfoPacketTECApp/ContactJSON.json";
 
                         FileWriter fileWriter = new FileWriter(path);
                         fileWriter.write(text);
