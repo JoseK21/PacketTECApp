@@ -5,4 +5,5 @@
     <string name="title_activity_chat">Chat</string>
     <string name="title_activity_registry">Registry</string>
     <string name="title_activity_office">Office</string>
+    <string name="title_activity_gallery">activity_gallery</string>
 </resources>
