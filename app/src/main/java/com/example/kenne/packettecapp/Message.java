@@ -36,16 +36,20 @@ public class Message extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner1);
         String[] a;
 
-        Log.d("<><><><><>>>>><<      ","YES");
-
-
-
         updateContact();
     }
 
     public void updateContact() {
-        final  String url = "http://192.168.100.21:8080/Servidor/api/blackBoxes/put";
-        final LinkedList listContact = new LinkedList();
+        //final  String url = "http://172.18.194.91:8080/Servidor/api/contactos/getAll";
+
+
+        Main main = new Main();
+        main.getURL();
+        Log.d("Information:",main.getURL());
+
+        final String url = main.getURL()+"contactos/getAll";
+
+        Log.d("Information:",url);
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
@@ -54,11 +58,12 @@ public class Message extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 Log.d("BEFORE-----for","a");
+                LinkedList listContact = new LinkedList();
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject jsonObject = (JSONObject) response.get(i);
 
-                        String a = jsonObject.getString("id");
+                        String a = jsonObject.getString("nombre");
                         Log.d("---- >", a);
                         listContact.addFirst(a);
 
@@ -66,7 +71,11 @@ public class Message extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }   Log.d("After-----for","a");
+                }
+
+                Log.d("INFO_SIZE", "--->"+listContact.size());
+                Log.d("Lista de Contactos", "--->"+listContact.mostrarLista());
+                fill(listContact);
 
 
             }
@@ -80,19 +89,7 @@ public class Message extends AppCompatActivity {
         });
 
         Log.i("inf","go here");
-
-        Log.d("INFO_SIZE", "--->"+listContact.size());
-
-
-
-        Log.d("Lista de Contactos", "--->"+listContact.mostrarLista());
-
-
         requestQueue.add(jsonArrayRequest);
-
-        fill(listContact);
-
-
         Toast.makeText(getApplicationContext(),"Data Loader Successefully",Toast.LENGTH_SHORT).show();
 
 
@@ -101,10 +98,10 @@ public class Message extends AppCompatActivity {
 
 
     public void fill(LinkedList listaEnlazada){
-        listaEnlazada.addFirst("Jonathan");
-        listaEnlazada.addFirst("Jose Carlos");
-        listaEnlazada.addFirst("Alejandro");
-        listaEnlazada.addFirst("Elias");
+        //listaEnlazada.addFirst("Jonathan");
+        //listaEnlazada.addFirst("Jose Carlos");
+        //listaEnlazada.addFirst("Alejandro");
+        //listaEnlazada.addFirst("Elias");
 
         String axa = listaEnlazada.returnData(0);
         Log.d("First ID",""+axa);

@@ -26,9 +26,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Clasa Principal
+ * Clase Principal
  */
 public class Main extends AppCompatActivity {
+    private String ip = "172.18.194.91";
+    final String url = "http://"+ip+":8080/Servidor/api/";
 
     private Button b_LogIn;
     private TextInputEditText textViewUserName_Main;
@@ -36,6 +38,8 @@ public class Main extends AppCompatActivity {
 
     private static String path;
     private static File dir;
+
+
     /**
      * Asigna la ventana/actividad (activity_main) y un Toolbar "Contenedor de opciones principales"
      *
@@ -49,70 +53,10 @@ public class Main extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost =new HttpPost("192.168.43.75:8080/PacketTECServer1/index.xml");       // ver ruta del servidor
-        //Nombre del servidor donde vamos a acceder la informacion(JSON->)
-
-
-
-        try {
-            HttpResponse response = httpClient.execute(httpPost);           // ejecuta el HttpResponse
-            String jsonResult = inputStreamToString(response.getEntity().getContent()).toString();      //inputStreamToString: lee la información.!
-
-            org.json.JSONObject object = new org.json.JSONObject(jsonResult);                           // Uso de la libreria que trae Android Studio(JSON)
-            String name = object.getString("nombre");
-            String version = object.getString("blog");
-
-            Toast.makeText(getApplicationContext(), name + "<-> " + version, Toast.LENGTH_SHORT).show();
-
-        }catch (JSONException e) {
-            Toast.makeText(getApplicationContext(), "Error 1 : "+ e.getMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-        catch (ClientProtocolException e ){
-            Toast.makeText(getApplicationContext(), "Error 2 : "+ e.getMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-        catch (IOException e){
-            Toast.makeText(getApplicationContext(), "Error 3 : "+ e.getMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-        */
-
-        path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
+                path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
         dir = new File(path);
         checkNetworkConnection();
-        /*
-        if (dir.exists()){
-            this.finish();
-            Intent i = new Intent(this, Chat.class);
-            startActivity(i);
-        }
-        */
-
-
-    }
-
-/*
-    private StringBuilder inputStreamToString(InputStream is){
-        String rLine = "";
-        StringBuilder answer = new StringBuilder();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-
-        try{
-            while ((rLine = rd.readLine())!= null){
-                answer.append(rLine);
-            }
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return answer;
-    }
-
-    */
-
+         }
 
     public boolean checkNetworkConnection(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -158,6 +102,7 @@ public class Main extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_create_account) {
+
             Intent i = new Intent(this, Registry.class);
             startActivity(i);
             return true;
@@ -234,28 +179,9 @@ public class Main extends AppCompatActivity {
         }
     }
 
+
+    public String getURL(){
+
+        return url;
+    }
 }
-
-
-/*
-
-        //JSON array and values
-        JSONArray jsonArray= new JSONArray();               //EXTRUCTURA DE CARGA DE MENSAJES AL DISPOSITIVOS.
-        jsonArray.add("Java");                              FOR (MESSAGE IN SERVER){ jsonArray.add( MESSAGE[IND] );}  jsonObject.put("MESSAGES", jsonArray);
-        jsonArray.add("Struts");
-        jsonArray.add("jQuery");
-        jsonArray.add("JavaScript");
-        jsonArray.add("Database");
-
-        jsonObject.put("technology", jsonArray);
-
-        // writing the JSONObject into a file(info.json)
-        try {
-            FileWriter fileWriter = new FileWriter("info.json");
-            fileWriter.write(jsonObject.toJSONString());
-            fileWriter.flush();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/

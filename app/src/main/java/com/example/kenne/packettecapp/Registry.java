@@ -86,7 +86,6 @@ public class Registry extends AppCompatActivity {
     }
     public void returnMain(){
         Toast.makeText(getApplicationContext(), "Created account.", Toast.LENGTH_SHORT).show();
-
         Intent i = new Intent(this, Main.class);
         startActivity(i);
     }
