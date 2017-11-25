@@ -1,5 +1,6 @@
 package com.example.kenne.packettecapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -110,6 +111,9 @@ public class Message extends AppCompatActivity {
     }
     public void addImage(View view){
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Add Image in process").show();
+        Intent i = new Intent(this, Imagen.class);
+        startActivity(i);
+
     }
     public void addVideo(View view){
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Add Video in process").show();

@@ -176,6 +176,9 @@ public class Main extends AppCompatActivity {
 
 
         } else {
+
+            Intent i = new Intent(this, Chat.class);
+            startActivity(i);
             //volleyCall(tUserName,tPassword);
             //ReadInfoJSON(tUserName,tPassword);
             // ---------------------------------------------
