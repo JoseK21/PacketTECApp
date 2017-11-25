@@ -38,6 +38,10 @@
             android:name=".Office"
             android:label="@string/title_activity_office"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Imagen"
+            android:label="@string/title_activity_imagen"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

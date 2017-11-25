@@ -2,6 +2,7 @@ package com.example.kenne.packettecapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Registry extends AppCompatActivity {
     private int id  = 0; // Subir al Server para que de hay nos proporcione un id (sumando cada ves en una unidad)
@@ -87,12 +90,12 @@ public class Registry extends AppCompatActivity {
             Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning! Password empty").show();
         }
         else{
-            //createFiles();
-            JSONObject jsonObject = new JSONObject();        //JSON object and values
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("PASSWORD", passW);
             jsonObject.put("USERNAME", un);
             jsonObject.put("FULLNAME", fn);
 
+            createFiles();
             postInfo(jsonObject);
             returnMain();
         }
@@ -102,7 +105,6 @@ public class Registry extends AppCompatActivity {
      * Metódo para regresar a la pantalla inicial
      */
     public void returnMain(){
-        Toast.makeText(getApplicationContext(), "Created account.", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, Main.class);
         startActivity(i);
     }
@@ -113,16 +115,17 @@ public class Registry extends AppCompatActivity {
 
     private void postInfo_Aux(final JSONObject response){
         Main main = new Main();
-        main.getURL();
-        final String respuesta2 = "respuestaaaa";
-        final String requestBody = response.toString();
-        final String url = "http://192.168.1.13:8080/PacketTEC/api/movil/post";
+        String ruta = main.getURL();
+        Log.d("RUTA",ruta);
+
+        final String url = "http://"+ruta+":8080/PacketTEC/api/movil/post";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new org.json.JSONObject(response),
                 new Response.Listener<org.json.JSONObject>() {
                     @Override
                     public void onResponse(org.json.JSONObject response) {
                         String msg = null;
+                        String msgID = null;
                         try {
                             msg = (String) response.get("msg");
                         } catch (JSONException e) {
@@ -130,10 +133,22 @@ public class Registry extends AppCompatActivity {
                         }
 
                         if (msg.equals("ok"))
-                            Toast.makeText(getApplicationContext(), "PERFECT...", Toast.LENGTH_SHORT).show();
+
+                            try {
+                                msgID = (String) response.get("id");
+                                setTEXid(msgID);
+                                Toast.makeText(getApplicationContext(), "Created Accout", Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
                         else
-                            Toast.makeText(getApplicationContext(), "ERRORRRRRRR line131-Registry", Toast.LENGTH_SHORT).show();
-                        Log.d("event", "JSON" + response);
+                            if (msg.equals("no ok")){
+                                Toast.makeText(getApplicationContext(), "Error---> Exist Accout ", Toast.LENGTH_SHORT).show();
+
+                            }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -148,45 +163,31 @@ public class Registry extends AppCompatActivity {
 
     }
 
-    /*
-    private void volleyCall(String fullname,String username,String password){
-        RequestQueue queue = Volley.newRequestQueue(this);
-// cambiar para pedir la IP
-        String URL = "http://192.168.1.13:8080/PacketTEC/api/movil/put";
-        Map<String,String> jsonParams = new HashMap<String, String>();
-
-        jsonParams.put("nombre",name);
-        jsonParams.put("contrasenna",password);
-
-        Log.d("","Json:"+new JSONObject(jsonParams));
-        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, URL, new org.json.JSONObject(jsonParams),
-                new Response.Listener<org.json.JSONObject>() {
-                    @Override
-                    public void onResponse(org.json.JSONObject response) {
-                        String msg = null;
-                        try {
-                            msg = (String) response.get("msg");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (msg.equals("success"))
-                            Toast.makeText(getApplicationContext(), "Your data is subite...", Toast.LENGTH_SHORT).show();
-
-
-                        else
-                            //Toast.makeText(Main.this, "", Toast.LENGTH_SHORT).show();
-                        Log.d("event", "JSON" + response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("event","Error "+error
-                        +"\nmessage"+error.getMessage());
-            }
-        }
-        );
-        queue.add(postRequest);
+    public void setTEXid(String id){
+        Chat chat = new Chat();
+        chat.showID(id);
     }
-*/
+
+    public void createFiles(){
+        try {
+            path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
+            dir = new File(path);
+            dir.mkdirs();
+
+
+            FileWriter fileSplayTreeJSON = new FileWriter(path + "/SplayTreeJSON.json");
+            fileSplayTreeJSON.flush();
+            FileWriter AVLTreeJSON = new FileWriter(path + "/AVLTreeJSON.json");
+            AVLTreeJSON.flush();
+            FileWriter BinarySearchTreeTreeJSON = new FileWriter(path + "/BinarySearchTreeTreeJSON.json");
+            BinarySearchTreeTreeJSON.flush();
+            FileWriter BTreeJSON = new FileWriter(path + "/BTreeJSON.json");
+            BTreeJSON.flush();
+
+            Toast.makeText(getApplicationContext(), "Successful_LogIn ", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
    }

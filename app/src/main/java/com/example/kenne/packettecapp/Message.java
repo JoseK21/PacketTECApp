@@ -1,5 +1,6 @@
 package com.example.kenne.packettecapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -47,12 +47,9 @@ public class Message extends AppCompatActivity {
      */
     public void updateContact() {
         Main main = new Main();
-        main.getURL();
-        Log.d("Information:",main.getURL());
-        //final String url = main.getURL()+"contactos/getAll";
+        String ruta = main.getURL();
 
-        final String url = main.getURL();
-        //final String url = main.getURL()+"contactos/getAll";
+        final String url = "http://"+ruta+":8080/PacketTEC/api/movil/put";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
@@ -63,7 +60,6 @@ public class Message extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = (JSONObject) response.get(i);
                         String a = jsonObject.getString("nombre");
-                        Log.d("---- >", a);
                         listContact.addFirst(a);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -83,7 +79,6 @@ public class Message extends AppCompatActivity {
         });
 
         requestQueue.add(jsonArrayRequest);
-        Toast.makeText(getApplicationContext(),"Data Loader Successefully",Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -109,6 +104,8 @@ public class Message extends AppCompatActivity {
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Send Message in process").show();
     }
     public void addImage(View view){
+        Intent im = new Intent(this,Imagen.class);
+        startActivity(im);
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Add Image in process").show();
     }
     public void addVideo(View view){
@@ -118,8 +115,4 @@ public class Message extends AppCompatActivity {
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("-----> Add Document in process").show();
     }
 
-    public void loadUser(String[] listUser) {
-            // enviar una lista de todos los usuario ingresados desde el servidor
-
-    }
 }

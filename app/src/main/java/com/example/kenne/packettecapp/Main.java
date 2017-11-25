@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,43 +17,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Clase Principal
  */
 public class Main extends AppCompatActivity {
+    private static String ip = "192.168.1.13";
 
-    final String url = "http://"+getURL()+":8080/PacketTEC/api/movil/put";
 
     private Button b_LogIn;
     private TextInputEditText textViewUserName_Main;
     private EditText editTextPassword_Main;
-
     private static String path;
     private static File dir;
-
-    private static String ip = "192.168.1.13";
 
     /**
      * Asigna la ventana/actividad (activity_main) y un Toolbar "Contenedor de opciones principales"
@@ -70,37 +46,11 @@ public class Main extends AppCompatActivity {
 
         path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
         dir = new File(path);
-
-        createFiles();
-
         checkNetworkConnection();
-        updateContact();
-         }
-
-
-    public void createFiles(){
-        try {
-            path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
-            dir = new File(path);
-            dir.mkdirs();
-
-
-            FileWriter fileSplayTreeJSON = new FileWriter(path + "/SplayTreeJSON.json");
-            fileSplayTreeJSON.flush();
-            FileWriter AVLTreeJSON = new FileWriter(path + "/AVLTreeJSON.json");
-            AVLTreeJSON.flush();
-            FileWriter BinarySearchTreeTreeJSON = new FileWriter(path + "/BinarySearchTreeTreeJSON.json");
-            BinarySearchTreeTreeJSON.flush();
-            FileWriter BTreeJSON = new FileWriter(path + "/BTreeJSON.json");
-            BTreeJSON.flush();
-
-            Toast.makeText(getApplicationContext(), "Successful_LogIn ", Toast.LENGTH_SHORT).show();
-            //Toast.makeText(getApplicationContext(), "File Create.( Fullname: "+fullname+ " Username: "+username+" Password: "+password+" )", Toast.LENGTH_SHORT).show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+
+
+
 
     /**
      * Metódo para obtener información de la conección
@@ -174,143 +124,13 @@ public class Main extends AppCompatActivity {
         } else if (tPassword.trim().equals("")) {
             Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setText("Warning! -> Password empty").show();
 
-
         } else {
-            //volleyCall(tUserName,tPassword);
-            //ReadInfoJSON(tUserName,tPassword);
-            // ---------------------------------------------
-
-
+            Intent i = new Intent(this,Chat.class);
+            startActivity(i);
         }
     }
-
-    /**
-     * Lector del contenido de carpetas
-     * @param User
-     * @param Pass
-     */
-    public void ReadInfoJSON(String User,String Pass){
-        JSONParser parser = new JSONParser();
-        try {
-            String rootInfoJSON = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp/infoJSON.json";
-            Object obj = null;
-            obj = parser.parse(new FileReader(rootInfoJSON));
-
-            JSONObject jsonObject = (JSONObject) obj;
-            String Name =(String) jsonObject.get("USERNAME");
-            String PassWord =(String) jsonObject.get("PASSWORD");
-
-            if(User.equals(Name) && Pass.equals(PassWord)){
-                this.finish();
-                Intent i = new Intent(this, Chat.class);
-                startActivity(i);
-            }
-            else{
-                textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
-                editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
-                textViewUserName_Main.setText("");
-                editTextPassword_Main.setText("");
-
-                Toast.makeText(getApplicationContext(), "Fault in the account start\nPlease write again", Toast.LENGTH_SHORT).show();
-            }
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public String getURL(){
-        Log.d("Your Host addr: " , "-- : "+ip);  // often returns "127.0.0.1"
-        return ""+ip;
+        return (String)ip;
     }
 
-    public void updateContact() {
-        final String url = "http://"+ip+":8080/PacketTEC/api/movil";
-        //final String url = getURL()+"contactos/getAll";
-
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-
-            @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        org.json.JSONObject jsonObject = (org.json.JSONObject) response.get(i);
-                        jsonObject.has("contrasenna");
-
-                        String f = jsonObject.getString("nombreUsuario");
-                        String n = jsonObject.getString("nombre");
-                        String p = jsonObject.getString("contrasenna");
-
-                        Log.d("--FullName-- >", f);
-                        Log.d("--Name-- >", n);
-                        Log.d("--Password-- >", p);
-
-                       // listContact.addFirst(a);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-               // fill(listContact);
-
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Volley Log",error);
-
-            }
-        });
-
-        requestQueue.add(jsonArrayRequest);
-        Toast.makeText(getApplicationContext(),"Data Loader Successefully",Toast.LENGTH_SHORT).show();
-    }
-
-    private void volleyCall(String name,String password){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        //final String url = "http://"+ip+":8080/PacketTEC/api/movil";
-        String URL = "http://"+ip+":8080/PacketTEC/api/movil/put";
-        Map<String,String> jsonParams = new HashMap<String, String>();
-
-        jsonParams.put("nombre",name);
-        jsonParams.put("contrasenna",password);
-
-        Log.d("","Json:"+new JSONObject(jsonParams));
-        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, URL, new org.json.JSONObject(jsonParams),
-                new Response.Listener<org.json.JSONObject>() {
-                    @Override
-                    public void onResponse(org.json.JSONObject response) {
-                        String msg = null;
-                        try {
-                            msg = (String) response.get("msg");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (msg.equals("success"))
-                            Toast.makeText(getApplicationContext(), "Your data is subite...", Toast.LENGTH_SHORT).show();
-
-
-                        else
-                            Toast.makeText(Main.this, "", Toast.LENGTH_SHORT).show();
-                        Log.d("event", "JSON" + response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("event","Error "+error
-                                                            +"\nmessage"+error.getMessage());
-                    }
-                }
-        );
-        queue.add(postRequest);
-    }
 }

@@ -21,7 +21,7 @@ public class Chat extends AppCompatActivity {
     HashMap<String, Integer> meMap = new HashMap<String, Integer>();
     private static TextView id;
     private static int identifier = 0;          // HAcerlo en el servidor para no reiniciar el id en cada dispositivo = 0
-
+    private TextView t_1 ;
 
 
     @Override
@@ -37,6 +37,7 @@ public class Chat extends AppCompatActivity {
 
 
         list = (ListView)findViewById(R.id.listViewMessage);
+        t_1 = (TextView) findViewById(R.id.textID);
         CustomListview customListview=new CustomListview(this,name,messageShort,imgid,meMap);
         list.setAdapter(customListview);
 
@@ -48,5 +49,10 @@ public class Chat extends AppCompatActivity {
     public void writeMessage(View view){
         Intent i = new Intent(this, Message.class);
         startActivity(i);
+    }
+
+    public void showID(String idFromServer){
+        String t ="ID: "+idFromServer.toString();
+        t_1.setText(t);
     }
 }
