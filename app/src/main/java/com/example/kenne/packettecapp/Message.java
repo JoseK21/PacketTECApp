@@ -107,6 +107,9 @@ public class Message extends AppCompatActivity {
         Intent im = new Intent(this,Imagen.class);
         startActivity(im);
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Add Image in process").show();
+        Intent i = new Intent(this, Imagen.class);
+        startActivity(i);
+
     }
     public void addVideo(View view){
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Add Video in process").show();
