@@ -42,39 +42,33 @@ public class Message extends AppCompatActivity {
         updateContact();
     }
 
+    /**
+     * Actualiza la lista de contactos
+     */
     public void updateContact() {
         Main main = new Main();
         main.getURL();
         Log.d("Information:",main.getURL());
+        //final String url = main.getURL()+"contactos/getAll";
 
-        final String url = main.getURL()+"contactos/getAll";
-
-        Log.d("Information:",url);
-
+        final String url = main.getURL();
+        //final String url = main.getURL()+"contactos/getAll";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("BEFORE-----for","a");
                 LinkedList listContact = new LinkedList();
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject jsonObject = (JSONObject) response.get(i);
-
                         String a = jsonObject.getString("nombre");
                         Log.d("---- >", a);
                         listContact.addFirst(a);
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
-                Log.d("INFO_SIZE", "--->"+listContact.size());
-                Log.d("Lista de Contactos", "--->"+listContact.mostrarLista());
                 fill(listContact);
 
 
@@ -88,20 +82,15 @@ public class Message extends AppCompatActivity {
             }
         });
 
-        Log.i("inf","go here");
         requestQueue.add(jsonArrayRequest);
         Toast.makeText(getApplicationContext(),"Data Loader Successefully",Toast.LENGTH_SHORT).show();
-
-
     }
 
-
-
+    /**
+     * Metódo que rellena el spinner
+     * @param listaEnlazada
+     */
     public void fill(LinkedList listaEnlazada){
-        //listaEnlazada.addFirst("Jonathan");
-        //listaEnlazada.addFirst("Jose Carlos");
-        //listaEnlazada.addFirst("Alejandro");
-        //listaEnlazada.addFirst("Elias");
 
         String axa = listaEnlazada.returnData(0);
         Log.d("First ID",""+axa);

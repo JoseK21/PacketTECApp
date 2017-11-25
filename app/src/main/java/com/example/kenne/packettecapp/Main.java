@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,8 +40,8 @@ import java.io.IOException;
  * Clase Principal
  */
 public class Main extends AppCompatActivity {
-    private String ip = "172.18.194.91";
-    final String url = "http://"+ip+":8080/Servidor/api/";
+
+    final String url = "http://"+getURL()+":8080/PacketTEC/api/movil/put";
 
     private Button b_LogIn;
     private TextInputEditText textViewUserName_Main;
@@ -39,6 +50,7 @@ public class Main extends AppCompatActivity {
     private static String path;
     private static File dir;
 
+    private static String ip = "192.168.1.13";
 
     /**
      * Asigna la ventana/actividad (activity_main) y un Toolbar "Contenedor de opciones principales"
@@ -49,15 +61,31 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-                path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
+        /*
+        @SuppressLint("WifiManagerLeak") WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+        int ipbd = wifiInfo.getIpAddress();
+        ip = ipbd;
+
+        String ipAddress = Formatter.formatIpAddress(ip);
+        Log.d("Your Host addr: " , "-- : "+ipAddress);  // often returns "127.0.0.1"
+
+*/
+
+        path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
         dir = new File(path);
         checkNetworkConnection();
+        updateContact();
+       // updateContact("1","2","3");
          }
 
+    /**
+     * Metódo para obtener información de la conección
+     * @return
+     */
     public boolean checkNetworkConnection(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -76,8 +104,7 @@ public class Main extends AppCompatActivity {
 
 
     /**
-     * Asigna el menu (menu - menu_main) a esta actividad(Ventana)
-     *
+     * Asigna el menu (menu - menu_main) a esta actividad(Ventana)     *
      * @param menu
      * @return
      */
@@ -88,8 +115,7 @@ public class Main extends AppCompatActivity {
     }
 
     /**
-     * Opciones principales (Salir(Exit) y Crear una cuenta(Create account)
-     *
+     * Opciones principales (Salir(Exit) y Crear una cuenta(Create account)     *
      * @param item
      * @return
      */
@@ -111,14 +137,10 @@ public class Main extends AppCompatActivity {
     }
 
     /**
-     * Metodo que permite acceder al chat del usuario luego de Logiarse en el sistema
-     *
+     * Metodo que permite acceder al chat del usuario luego de Logiarse en el sistema     *
      * @param view
      */
     public void logIn(View view) {
-
-
-
         textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
         editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
 
@@ -134,17 +156,20 @@ public class Main extends AppCompatActivity {
 
 
         } else {
-
             ReadInfoJSON(tUserName,tPassword);
+            // ---------------------------------------------
+
 
         }
     }
 
+    /**
+     * Lector del contenido de carpetas
+     * @param User
+     * @param Pass
+     */
     public void ReadInfoJSON(String User,String Pass){
         JSONParser parser = new JSONParser();
-
-
-
         try {
             String rootInfoJSON = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp/infoJSON.json";
             Object obj = null;
@@ -156,14 +181,12 @@ public class Main extends AppCompatActivity {
 
             if(User.equals(Name) && Pass.equals(PassWord)){
                 this.finish();
-                // ---> CREACION DE UN .JSON EL CUAL SE TIENE QUE ENVIAR AL SERVIDOR PARA CONSULTAR LA EXISTENCIA DEL USUARIO Y A SU VES TODOS SUS MENSAJES
                 Intent i = new Intent(this, Chat.class);
                 startActivity(i);
             }
             else{
                 textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
                 editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
-
                 textViewUserName_Main.setText("");
                 editTextPassword_Main.setText("");
 
@@ -181,7 +204,103 @@ public class Main extends AppCompatActivity {
 
 
     public String getURL(){
-
-        return url;
+        Log.d("Your Host addr: " , "-- : "+ip);  // often returns "127.0.0.1"
+        return ""+ip;
     }
+
+    public void updateContact() {
+        final String url = getURL();
+        //final String url = main.getURL()+"contactos/getAll";
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        org.json.JSONObject jsonObject = (org.json.JSONObject) response.get(i);
+                        jsonObject.has("contrasenna");
+
+                        String f = jsonObject.getString("nombreUsuario");
+                        String n = jsonObject.getString("nombre");
+                        String p = jsonObject.getString("contrasenna");
+
+                        Log.d("--FullName-- >", f);
+                        Log.d("--Name-- >", n);
+                        Log.d("--Password-- >", p);
+
+                       // listContact.addFirst(a);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+               // fill(listContact);
+
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Volley Log",error);
+
+            }
+        });
+
+        requestQueue.add(jsonArrayRequest);
+        Toast.makeText(getApplicationContext(),"Data Loader Successefully",Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+    public void updateContact(final String fName,final String uName,final String pWord) {
+        Main main = new Main();
+        String ruta =main.getURL();
+        Log.d("RUTA -- >  ",ruta);
+
+        final String url = main.getURL()+"contactos/getAll";
+        Log.d("URL -- >  ",url);
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+
+                        org.json.JSONObject jsonObject = (org.json.JSONObject) response.get(i);
+                        String f = jsonObject.getString("nombreUsuario");
+                        String u = jsonObject.getString("nombre");
+                        String p = jsonObject.getString("contrasena");
+
+                        Log.d("Nombre de Usuario ",f);
+                        Log.d("Nombre de Usuario",u);
+                        Log.d("Nombre de Usuario",p);
+/*
+                        if (fName.equals(f)||uName.equals(u) && pWord.equals(p)){
+                            Toast.makeText(getApplicationContext(),"Log in",Toast.LENGTH_SHORT).show();
+                            break;
+                            //returnMain();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Volley Log",error);
+
+            }
+        });
+
+        requestQueue.add(jsonArrayRequest);
+      //  Toast.makeText(getApplicationContext(),"Account Create",Toast.LENGTH_SHORT).show();
+    }
+    */
+
 }

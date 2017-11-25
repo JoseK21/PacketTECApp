@@ -7,13 +7,10 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -46,15 +43,12 @@ public class Registry extends AppCompatActivity {
     public void signIn(View view){
         tIeTFullName = (TextInputEditText)findViewById(R.id.tiFullName);
         fn= tIeTFullName.getText().toString();
-        Log.d("Full Name", fn);
 
         tIeTUserName = (TextInputEditText)findViewById(R.id.tiUserName);
         un = tIeTUserName.getText().toString();
-        Log.d("User Name", un);
 
         tIeTPassword = (TextInputEditText)findViewById(R.id.tiPassword);
         passW = tIeTPassword.getText().toString();
-        Log.d("Password", passW);
 
         fab= (Button) findViewById(R.id.b_SignIn); // Creo que no lo nesesito(Quitar)
 
@@ -80,7 +74,7 @@ public class Registry extends AppCompatActivity {
             Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("Warning! Password empty").show();
         }
         else{
-            JSONLoginIn(un, fn,passW);
+            createFiles();
             returnMain();
         }
     }
@@ -90,23 +84,21 @@ public class Registry extends AppCompatActivity {
         startActivity(i);
     }
 
-
-
-    public void JSONLoginIn(String username,Object fullname, String password) {
-        JSONObject jsonObject = new JSONObject();        //JSON object and values
-        jsonObject.put("PASSWORD", password);
-        jsonObject.put("USERNAME", username);
-        jsonObject.put("FULLNAME", fullname);
-
+    public void createFiles(){
         try {
             path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
             dir = new File(path);
             dir.mkdirs();
 
 
-            FileWriter fileWriter = new FileWriter(path + "/infoJSON.json");
-            fileWriter.write(jsonObject.toJSONString());
-            fileWriter.flush();
+            FileWriter fileSplayTreeJSON = new FileWriter(path + "/SplayTreeJSON.json");
+            fileSplayTreeJSON.flush();
+            FileWriter AVLTreeJSON = new FileWriter(path + "/AVLTreeJSON.json");
+            AVLTreeJSON.flush();
+            FileWriter BinarySearchTreeTreeJSON = new FileWriter(path + "/BinarySearchTreeTreeJSON.json");
+            BinarySearchTreeTreeJSON.flush();
+            FileWriter BTreeJSON = new FileWriter(path + "/BTreeJSON.json");
+            BTreeJSON.flush();
 
             Toast.makeText(getApplicationContext(), "Successful_LogIn ", Toast.LENGTH_SHORT).show();
             //Toast.makeText(getApplicationContext(), "File Create.( Fullname: "+fullname+ " Username: "+username+" Password: "+password+" )", Toast.LENGTH_SHORT).show();
@@ -116,4 +108,5 @@ public class Registry extends AppCompatActivity {
         }
     }
 
-}
+
+   }
