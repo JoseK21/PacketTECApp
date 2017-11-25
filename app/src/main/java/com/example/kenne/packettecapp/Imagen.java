@@ -29,7 +29,9 @@ import java.io.File;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-
+/**
+ * Imagen para la creación de imaganes por medio de la cámara y la galería
+ */
 public class Imagen extends AppCompatActivity {
 
     private static String APP_DIRECTORY = "MyPictureApp/";
@@ -45,6 +47,10 @@ public class Imagen extends AppCompatActivity {
 
     private String mPath;
 
+    /**
+     * Asigna los alementos del activity con los de la clase
+     * @param savedInstancesState
+     */
     @Override
     protected void onCreate(Bundle savedInstancesState){
         super.onCreate(savedInstancesState);
@@ -69,6 +75,10 @@ public class Imagen extends AppCompatActivity {
         });
     }
 
+    /**
+     * Verifica si los permisos están en orden, si los permitieron o no
+     * @return True o Falso
+     */
     private boolean myRequestStoragePermission() {
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
@@ -94,6 +104,9 @@ public class Imagen extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Crear las opciones para tomar foto, elegir de galería y cancelar
+     */
     private void showOption() {
         final CharSequence[] option = {"Tomar foto", "Elegir de galería", "Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(Imagen.this);
@@ -118,6 +131,9 @@ public class Imagen extends AppCompatActivity {
         builder.show();
     }
 
+    /**
+     * Crea una carpeta donde se guardará la foto y llama a la cámara
+     */
     private void openCamara() {
         File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
         boolean isDirectoryCreated = file.exists();
@@ -140,6 +156,10 @@ public class Imagen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Se adquiere la dirección path
+     * @param outState
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -153,6 +173,12 @@ public class Imagen extends AppCompatActivity {
         mPath = savedInstanceState.getString("file_path");
     }
 
+    /**
+     * Se maneja la imagen y se decodifica para mostrarla en el ImageView
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -181,6 +207,12 @@ public class Imagen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Verifica los parametos e indica si fueron aceptados
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -196,10 +228,13 @@ public class Imagen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Comunica que los permisos no fueron aceptados
+     */
     private void showExplanation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Imagen.this);
         builder.setTitle("Permisos denegados");
-        builder.setMessage("Para proceder se ocupan los permisos de la apliacacion");
+        builder.setMessage("Para proceder se ocupan los permisos de la aplicacion");
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

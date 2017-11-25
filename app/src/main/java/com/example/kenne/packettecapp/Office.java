@@ -6,6 +6,10 @@ import android.support.v7.widget.Toolbar;
 
 public class Office extends AppCompatActivity {
 
+    /**
+     * Se crea una nueva pestña con un toolbar
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -27,6 +27,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Registra los usuarios si no hay uno existente
+ */
 public class Registry extends AppCompatActivity {
     private int id  = 0; // Subir al Server para que de hay nos proporcione un id (sumando cada ves en una unidad)
     private Button b_1 ;
@@ -113,6 +116,10 @@ public class Registry extends AppCompatActivity {
         postInfo_Aux(nombre);
     }
 
+    /**
+     * Envia al servdor la informcaión del registro
+     * @param response
+     */
     private void postInfo_Aux(final JSONObject response){
         Main main = new Main();
         String ruta = main.getURL();
@@ -168,6 +175,9 @@ public class Registry extends AppCompatActivity {
         chat.showID(id);
     }
 
+    /**
+     * Crea los archivos donde serán guardadas las fotos
+     */
     public void createFiles(){
         try {
             path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";

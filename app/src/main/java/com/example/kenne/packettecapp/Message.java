@@ -100,9 +100,18 @@ public class Message extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
+    /**
+     * Envia el mensaje al destinatario
+     * @param view
+     */
     public void sendMessage(View view){
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Send Message in process").show();
     }
+
+    /**
+     * Agrega una imagen de la galería o de la cámara
+     * @param view
+     */
     public void addImage(View view){
         Intent im = new Intent(this,Imagen.class);
         startActivity(im);
@@ -111,9 +120,19 @@ public class Message extends AppCompatActivity {
         startActivity(i);
 
     }
+
+    /**
+     * Agrega un video de la galería o de la cámara
+     * @param view
+     */
     public void addVideo(View view){
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("----->  Add Video in process").show();
     }
+
+    /**
+     * Agrega un documento dentro del dispositivo
+     * @param view
+     */
     public void addDocument(View view){
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("-----> Add Document in process").show();
     }
