@@ -25,6 +25,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase de la ventana mensaje la cual permite escribir y adjuntar archivos
+ */
 public class Message extends AppCompatActivity {
     private Spinner spinner;
 
@@ -40,9 +43,6 @@ public class Message extends AppCompatActivity {
     }
 
     public void updateContact() {
-        //final  String url = "http://172.18.194.91:8080/Servidor/api/contactos/getAll";
-
-
         Main main = new Main();
         main.getURL();
         Log.d("Information:",main.getURL());
