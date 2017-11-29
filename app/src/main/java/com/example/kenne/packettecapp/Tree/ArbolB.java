@@ -4,7 +4,7 @@ package com.example.kenne.packettecapp.Tree;
  * Created by José Núñez on 8/11/2017.
  */
 
-public class ArbolB{
+public class ArbolB<S> {
 
     static int orden; // orden del arbol
     NodoB raiz;  //raiz del arbol
@@ -137,7 +137,7 @@ public class ArbolB{
 
     }
 
-    public void insertar(ArbolB t, NodoB llave)
+    public void insertar(ArbolB<S> t, NodoB llave)
     {
         NodoB r = t.raiz;
         if(r.getCantidad() == 2*orden - 1)
@@ -175,7 +175,7 @@ public class ArbolB{
         }
     }
 
-    public void ImprimirnodoEspecifico( ArbolB T,NodoB x)
+    public void ImprimirnodoEspecifico(ArbolB<S> T, NodoB x)
     {
         NodoB temp= new  NodoB (orden,null);
 
@@ -195,7 +195,7 @@ public class ArbolB{
 
 
     }
-    public void deleteKey(ArbolB t, NodoB key)
+    public void deleteKey(ArbolB<S> t, NodoB key)
     {
 
         NodoB temp = new  NodoB(orden,null);
@@ -224,7 +224,7 @@ public class ArbolB{
         }
     }
     public static void main(String[] args) {
-        ArbolB arbol = new ArbolB(3);
+        ArbolB<S> arbol = new ArbolB<S>(3);
 
     }
 }

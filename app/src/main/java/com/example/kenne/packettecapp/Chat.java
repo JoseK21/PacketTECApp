@@ -10,10 +10,7 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
-/**
- * Clase para observar el chat del usuario.
- *
- */
+
 public class Chat extends AppCompatActivity {
 
 
@@ -24,13 +21,8 @@ public class Chat extends AppCompatActivity {
     HashMap<String, Integer> meMap = new HashMap<String, Integer>();
     private static TextView id;
     private static int identifier = 0;          // HAcerlo en el servidor para no reiniciar el id en cada dispositivo = 0
-    private TextView t_1 ;
 
 
-    /**
-     * Creación de contactos y mensajes pre-existentes
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +36,7 @@ public class Chat extends AppCompatActivity {
 
 
         list = (ListView)findViewById(R.id.listViewMessage);
-        t_1 = (TextView) findViewById(R.id.textID);
+
         CustomListview customListview=new CustomListview(this,name,messageShort,imgid,meMap);
         list.setAdapter(customListview);
 
@@ -53,21 +45,8 @@ public class Chat extends AppCompatActivity {
 
     }
 
-    /**
-     * Instanciamos del chat a la clase de los mensajes
-     * @param view
-     */
     public void writeMessage(View view){
         Intent i = new Intent(this, Message.class);
         startActivity(i);
-    }
-
-    /**
-     * Conformación del ID
-     * @param idFromServer
-     */
-    public void showID(String idFromServer){
-        String t ="ID: "+idFromServer.toString();
-        t_1.setText(t);
     }
 }

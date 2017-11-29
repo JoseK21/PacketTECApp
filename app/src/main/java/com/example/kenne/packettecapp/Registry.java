@@ -27,9 +27,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * Registra los usuarios si no hay uno existente
- */
 public class Registry extends AppCompatActivity {
     private int id  = 0; // Subir al Server para que de hay nos proporcione un id (sumando cada ves en una unidad)
     private Button b_1 ;
@@ -44,6 +41,7 @@ public class Registry extends AppCompatActivity {
     private String passW;
     private static String path;
     private static File dir;
+    static String msgID = null;
 
 
     @Override
@@ -116,10 +114,6 @@ public class Registry extends AppCompatActivity {
         postInfo_Aux(nombre);
     }
 
-    /**
-     * Envia al servdor la informcaión del registro
-     * @param response
-     */
     private void postInfo_Aux(final JSONObject response){
         Main main = new Main();
         String ruta = main.getURL();
@@ -127,6 +121,8 @@ public class Registry extends AppCompatActivity {
 
         final String url = "http://"+ruta+":8080/PacketTEC/api/movil/post";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        msgID = (String) response.get("id");
+        Toast.makeText(getApplicationContext(), "Created Accout with the ID:"+msgID, Toast.LENGTH_SHORT).show();
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new org.json.JSONObject(response),
                 new Response.Listener<org.json.JSONObject>() {
                     @Override
@@ -143,18 +139,18 @@ public class Registry extends AppCompatActivity {
 
                             try {
                                 msgID = (String) response.get("id");
-                                setTEXid(msgID);
-                                Toast.makeText(getApplicationContext(), "Created Accout", Toast.LENGTH_SHORT).show();
+                                Log.d("IDDDDDDDDDDDD: ",msgID);
+                                Toast.makeText(getApplicationContext(), "Created Accout with the ID:"+msgID, Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
 
                         else
-                            if (msg.equals("no ok")){
-                                Toast.makeText(getApplicationContext(), "Error---> Exist Accout ", Toast.LENGTH_SHORT).show();
+                        if (msg.equals("no ok")){
+                            Toast.makeText(getApplicationContext(), "Error---> Exist Accout ", Toast.LENGTH_SHORT).show();
 
-                            }
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -170,14 +166,10 @@ public class Registry extends AppCompatActivity {
 
     }
 
-    public void setTEXid(String id){
-        Chat chat = new Chat();
-        chat.showID(id);
+    public static String getID(){
+        return msgID;
     }
 
-    /**
-     * Crea los archivos donde serán guardadas las fotos
-     */
     public void createFiles(){
         try {
             path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/InfoPacketTECApp";
@@ -200,4 +192,4 @@ public class Registry extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-   }
+}

@@ -8,7 +8,7 @@ public class ArbolSplay <T extends Comparable<T>>{
     private NodoSplay raizSplay;
     private int contador = 0;
 
-    ArbolSplay(){
+    public ArbolSplay(){
         this.raizSplay = null;
     }
     public boolean estaVacio(){//retorna si el arbol esta vacio no no

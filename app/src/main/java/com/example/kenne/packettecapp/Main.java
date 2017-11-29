@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +18,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+
 import java.io.File;
 
 /**
  * Clase Principal
  */
 public class Main extends AppCompatActivity {
-    private static String ip = "192.168.1.13";
+    private static String ip = "192.168.43.125";
 
 
     private Button b_LogIn;
@@ -31,6 +42,7 @@ public class Main extends AppCompatActivity {
     private EditText editTextPassword_Main;
     private static String path;
     private static File dir;
+    private static String iD;
 
     /**
      * Asigna la ventana/actividad (activity_main) y un Toolbar "Contenedor de opciones principales"
@@ -49,7 +61,9 @@ public class Main extends AppCompatActivity {
         checkNetworkConnection();
     }
 
-
+    public static String getiD(){
+        return iD;
+    }
 
 
     /**
@@ -98,7 +112,6 @@ public class Main extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_create_account) {
-
             Intent i = new Intent(this, Registry.class);
             startActivity(i);
             return true;
@@ -114,8 +127,8 @@ public class Main extends AppCompatActivity {
         textViewUserName_Main = (TextInputEditText) findViewById(R.id.textViewUserName_Main);
         editTextPassword_Main = (EditText) findViewById(R.id.editTextPassword_Main);
 
-        String tUserName = textViewUserName_Main.getText().toString();
-        String tPassword = editTextPassword_Main.getText().toString();
+        final String tUserName = textViewUserName_Main.getText().toString();
+        final String tPassword = editTextPassword_Main.getText().toString();
 
         if (tUserName.trim().equals("") && tPassword.trim().equals("")) {
             Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setText("Warning! -> User Name and Password empty").show();
@@ -125,12 +138,87 @@ public class Main extends AppCompatActivity {
             Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setText("Warning! -> Password empty").show();
 
         } else {
-            Intent i = new Intent(this,Chat.class);
-            startActivity(i);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("passW", tPassword);
+            jsonObject.put("userN", tUserName);
+            postInfo(jsonObject);
         }
     }
+
+    /**
+     * Metódo que obtiene el ip(URL)
+     * @return
+     */
     public String getURL(){
         return (String)ip;
+    }
+
+    public void postInfo(JSONObject nombre){
+        postInfo_Aux(nombre);
+    }
+
+
+    private void postInfo_Aux(final JSONObject response){
+        Main main = new Main();
+        String ruta = main.getURL();
+        Log.d("RUTA",ruta);
+
+        final String url = "http://"+ruta+":8080/PacketTEC/api/movil/inicio";
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new org.json.JSONObject(response),
+                new Response.Listener<org.json.JSONObject>() {
+                    @Override
+                    public void onResponse(org.json.JSONObject response) {
+                        String msg = null;
+                        String msgName = null;
+                        try {
+                            msg = (String) response.get("msg");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (msg.equals("ok"))
+                            try {
+
+                                iD = (String) response.get("id");
+                                msgName = (String) response.get("nombre");
+                                Log.d(".....",iD+"-"+msgName);
+                                openChat(msgName,iD);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        else
+                        if (msg.equals("no ok")){
+                            Toast.makeText(getApplicationContext(), "This account is not created", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("event","Error "+error
+                        +"\nmessage"+error.getMessage());
+            }
+        }
+        );
+
+        requestQueue.add(postRequest);
+
+    }
+
+    public void openChat(String n,String id){
+        //-----------------
+        Toast.makeText(getApplicationContext(), "Welcome "+n, Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this,Chat.class);
+        startActivity(i);
+
+
+
     }
 
 }

@@ -28,14 +28,14 @@ public class CustomListview extends ArrayAdapter<String>{
     private HashMap<String, Integer> meMap;
 
 
-// aqui hay que pasar solo el usuario que nos envio un msj.... es decir solo ir agregando uno en uno
+    // aqui hay que pasar solo el usuario que nos envio un msj.... es decir solo ir agregando uno en uno
     public CustomListview(Activity context,String[] name,String[] messageShort,Integer[] imgid,HashMap<String, Integer> meMap) {
         super(context, R.layout.listview_layout,name);
-    this.context=context;
-    this.name=name;
-    this.messageShort=messageShort;
-    this.imgid=imgid;
-    this.meMap=meMap;
+        this.context=context;
+        this.name=name;
+        this.messageShort=messageShort;
+        this.imgid=imgid;
+        this.meMap=meMap;
 
     }
 
