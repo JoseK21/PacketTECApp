@@ -223,7 +223,7 @@ public class ArbolB<S> {
             System.out.println("error");
         }
     }
-    public static void main(String[] args) {
+    public void main(String[] args) {
         ArbolB<S> arbol = new ArbolB<S>(3);
 
     }

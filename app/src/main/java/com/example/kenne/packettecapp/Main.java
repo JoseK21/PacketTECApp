@@ -34,7 +34,7 @@ import java.io.File;
  * Clase Principal
  */
 public class Main extends AppCompatActivity {
-    private static String ip = "192.168.43.125";
+    private static String ip = "192.168.100.11";
 
 
     private Button b_LogIn;

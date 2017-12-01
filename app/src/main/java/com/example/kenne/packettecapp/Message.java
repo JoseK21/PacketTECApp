@@ -1,10 +1,13 @@
 package com.example.kenne.packettecapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -28,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,14 +40,15 @@ import java.util.List;
  */
 public class Message extends AppCompatActivity {
     private Spinner spinner;
-    private LinkedList listContact;
+    public static LinkedList listContact;
     private LinkedList listId;
     private String receptorContact;
     private String receptorID;
     private TextInputEditText mess;
     private org.json.simple.JSONObject jsonObject;
     private String emisorID;
-    private final ArbolB<String> arbolRecibidos = new ArbolB<>(0);
+    public static List<String> miArrayList;
+    public static String[] name = new String[999];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +83,14 @@ public class Message extends AppCompatActivity {
                         String ix = jsonObject.getString("id");
                         listContact.addFirst(a);
                         listId.addFirst(ix);
+                        name[i] = a;
+                        Log.d("Lista de contactos", "onResponse: "+  name[i]);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+                Log.d("Lista de contactos", "onResponse: "+  name);
                 fill(listContact);
 
 
@@ -107,13 +116,14 @@ public class Message extends AppCompatActivity {
         String axa = listaEnlazada.returnData(0);
         Log.d("First ID",""+axa);
 
-        List<String> miArrayList = new ArrayList<String>();
+        miArrayList = new ArrayList<String>();
 
         for (int e=0;e<listaEnlazada.size();e++){
             miArrayList.add(listaEnlazada.returnData(e));
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,miArrayList);
+
         spinner.setAdapter(adapter);
     }
 
@@ -192,6 +202,19 @@ public class Message extends AppCompatActivity {
         Snackbar.make(view, "", Snackbar.LENGTH_LONG).setText("-----> Add Document in process").show();
     }
 
+    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality)
+    {
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOS);
+        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
+    }
+
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }
+
     public void postInfo(org.json.simple.JSONObject nombre){
         postInfo_Aux(nombre);
     }
@@ -204,8 +227,8 @@ public class Message extends AppCompatActivity {
         final ArbolAVL<String> arbolAVL = new ArbolAVL<>();
         final String url = "http://"+ruta+":8080/PacketTEC/api/movil/mensaje";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String msgID = null;
-        msgID = (String) response.get("id");
+        String message = (String) response.get("message");
+        String msgID = (String) response.get("id");
         Toast.makeText(getApplicationContext(), "Message to sent to:"+msgID, Toast.LENGTH_SHORT).show();
         final JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, new org.json.JSONObject(response),
                 new Response.Listener<org.json.JSONObject>() {
@@ -227,19 +250,15 @@ public class Message extends AppCompatActivity {
                         if (msg.equals("ok")) {
                             Toast.makeText(getApplicationContext(), "Message to sent", Toast.LENGTH_SHORT).show();
 
-/*
-                            if (msg1.equals("true")) {
-                                String textoArbol = "Mensaje exitosamente enviado a :" + receptorID;
-                                arbolSplay.insertar(textoArbol);
+                            String textoArbol = "Mensaje exitosamente enviado a :" + receptorID;
+                            arbolSplay.insertar(textoArbol);
 
-                            } else if (msg1.equals("false")) {
-                                String textoArbol = "Mensaje fallido para :" + emisorID;
-                                arbolAVL.insertar(textoArbol);
-                            }
-*/
+
 
                         }else{
                         if (msg.equals("no ok")) {
+                            String textoArbol = "Mensaje fallido para :" + emisorID;
+                            arbolAVL.insertar(textoArbol);
                             Toast.makeText(getApplicationContext(), "Message not sent ", Toast.LENGTH_SHORT).show();
                         }
                         }

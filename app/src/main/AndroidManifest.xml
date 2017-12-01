@@ -41,6 +41,10 @@
         <activity
             android:name=".Imagen"
             android:label="@string/title_activity_imagen"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Mensajeria"
+            android:label="@string/title_activity_mensajeria"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
